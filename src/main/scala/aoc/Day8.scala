@@ -1,15 +1,16 @@
 package aoc
 
 import aoc.util.Grid
+import aoc.util.Grid.Index
 
 object Day8 extends App {
 
   type TreeSize = Int
 
   def solvePart1(grid: Grid[TreeSize]): Int = {
-    def isVisible(cc: (Int, Int)): Boolean =
-      indicesIn4Directions(cc, grid)
-        .exists(_.forall(grid(_) < grid(cc)))
+    def isVisible(index: Index): Boolean =
+      indicesIn4Directions(index, grid)
+        .exists(_.forall(grid(_) < grid(index)))
 
     grid.rowColumnIndices.count(isVisible)
   }
@@ -20,21 +21,21 @@ object Day8 extends App {
       if (distance == otherTrees.size) distance else distance + 1
     }
 
-    def scenicScore(cc: (Int, Int)): Int =
-      indicesIn4Directions(cc, grid)
+    def scenicScore(index: Index): Int =
+      indicesIn4Directions(index, grid)
         .map(_.map(grid(_)))
-        .map(viewingDistance(grid(cc)))
+        .map(viewingDistance(grid(index)))
         .product
 
     grid.rowColumnIndices.map(scenicScore).maxOption.getOrElse(0)
   }
 
-  private def indicesIn4Directions(cc: (Int, Int), grid: Grid[TreeSize]) =
+  private def indicesIn4Directions(index: Index, grid: Grid[TreeSize]) =
     List(
-      grid.indicesAbove(cc),
-      grid.indicesRight(cc),
-      grid.indicesBelow(cc),
-      grid.indicesLeft(cc)
+      grid.indicesAbove(index),
+      grid.indicesRight(index),
+      grid.indicesBelow(index),
+      grid.indicesLeft(index)
     )
 
   private val sample = Grid.parseCharacterGrid(Input.asString("day8_sample.txt")).map(_ - '0')
