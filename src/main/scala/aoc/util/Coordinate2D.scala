@@ -16,6 +16,8 @@ case class Coordinate2D(x: Int, y: Int) {
   def adjacent4: List[Coordinate2D] = List(up, right, down, left)
   def adjacent8: List[Coordinate2D] = List(up, upRight, right, downRight, down, downLeft, left, upLeft)
 
+  def manhattanDistanceTo(to: Coordinate2D): Int = (x - to.x).abs + (y - to.y).abs
+
 }
 
 object Coordinate2D {

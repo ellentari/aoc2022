@@ -1,16 +1,8 @@
 package aoc
 
+import aoc.util.Interval
+
 object Day4 extends App {
-
-  case class Interval(start: Int, end: Int) {
-
-    def contains(other: Interval): Boolean =
-      start <= other.start && other.end <= end
-
-    def overlaps(other: Interval): Boolean =
-      other.start <= end && start <= other.end
-
-  }
 
   def solvePart1(input: List[(Interval, Interval)]): Int =
     input.count { case (interval1, interval2) =>
