@@ -2,10 +2,14 @@ package aoc.util
 
 case class Coordinate2D(x: Int, y: Int) {
 
-  def up: Coordinate2D = copy(y = y + 1)
-  def down: Coordinate2D = copy(y = y - 1)
-  def left: Coordinate2D = copy(x = x - 1)
-  def right: Coordinate2D = copy(x = x + 1)
+  def addX(dx: Int): Coordinate2D = copy(x = x + dx)
+  def addY(dy: Int): Coordinate2D = copy(y = y + dy)
+  def add(dx: Int, dy: Int): Coordinate2D = copy(x = x + dx, y = y + dy)
+
+  def up: Coordinate2D = addY(1)
+  def down: Coordinate2D = addY(-1)
+  def left: Coordinate2D = addX(-1)
+  def right: Coordinate2D = addX(1)
 
   def downLeft: Coordinate2D = Coordinate2D(x = x - 1, y = y - 1)
   def downRight: Coordinate2D = Coordinate2D(x = x + 1, y = y - 1)
