@@ -1,5 +1,6 @@
 package aoc
 
+import aoc.algo.BFS
 import aoc.util.Grid
 
 object Day12 extends App {
@@ -15,15 +16,18 @@ object Day12 extends App {
     private val end = grid.indexOf(_.label == 'E').get
 
     def findShortestPathFromStartToEnd: Option[Int] =
-      grid.findShortestPath(start, canClimb, _ == end)
+      BFS.shortestPathLength(start)(
+        from => grid.adjacent4(from).filter(canClimb(from, _)),
+        _ == end)
 
     def findShortestPathFromEndToNearestStart: Option[Int] =
-      grid.findShortestPath(
-        end,
-        (from, to) => canClimb(to, from),
-        grid(_).elevation == 'a')
+      BFS.shortestPathLength(end)(
+        to => grid.adjacent4(to).filter(canClimb(_, to)),
+        grid(_).elevation == 'a'
+      )
 
-    private def canClimb(from: Cell, to: Cell): Boolean = (to.elevation - from.elevation) <= 1
+    private def canClimb(from: Grid.Index, to: Grid.Index): Boolean =
+      (grid(to).elevation - grid(from).elevation) <= 1
 
   }
 

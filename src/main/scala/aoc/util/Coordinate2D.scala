@@ -27,6 +27,8 @@ case class Coordinate2D(x: Int, y: Int) {
 object Coordinate2D {
   val Zero: Coordinate2D = Coordinate2D(0, 0)
 
+  implicit val orderingCoordinate3D: Ordering[Coordinate2D] = Ordering.by(c => (c.x, c.y))
+
   def parse(s: String): Coordinate2D = {
     val parts = s.split(",")
     Coordinate2D(parts(0).trim.toInt, parts(1).trim.toInt)

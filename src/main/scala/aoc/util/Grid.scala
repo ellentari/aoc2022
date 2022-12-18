@@ -84,28 +84,6 @@ case class Grid[A](rows: IndexedSeq[IndexedSeq[A]]) {
   def indexOf(predicate: A => Boolean): Option[Index] =
     rowColumnIndices.find(index => predicate(apply(index)))
 
-  def findShortestPath(
-    start: Index,
-    shouldVisit: (A, A) => Boolean,
-    isEnd: Index => Boolean): Option[Int] = {
-    @tailrec
-    def bfs(queue: Queue[(Index, Int)], seen: Set[Index]): Option[Int] =
-      queue.dequeueOption match {
-        case None => None
-        case Some(((index, length), tail)) =>
-          if (isEnd(index)) Some(length)
-          else {
-            val toVisit = adjacent4(index)
-              .filterNot(seen.contains)
-              .filter(adj => shouldVisit(apply(index), apply(adj)))
-
-            bfs(tail ++ toVisit.map(_ -> (length + 1)), seen ++ toVisit)
-          }
-      }
-
-    bfs(Queue((start, 0)), Set(start))
-  }
-
   private def isWithinGrid(cc: (Int, Int)) =
     cc._1 >= 0 && cc._1 < rows.length && cc._2 >= 0 && cc._2 < rows(cc._1).length
 
