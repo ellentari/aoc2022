@@ -23,6 +23,11 @@ case class GridMap[A](map: Map[Coordinate2D, A]) {
   def ++(other: Iterable[(Coordinate2D, A)]): GridMap[A] = GridMap(map ++ other)
   def ++(other: GridMap[A]): GridMap[A] = GridMap(map ++ other.map)
 
+  def --(keys: Iterable[Coordinate2D]): GridMap[A] = GridMap(map -- keys)
+
+  def ys: Range = if (map.isEmpty) (0 until 0) else maxY to minY by -1
+  def xs: Range = if (map.isEmpty) (0 until 0) else minX to maxX
+
   def map[B](f: A => B): GridMap[B] = GridMap(map.view.mapValues(f).toMap)
   def mapCoordinates(f: Coordinate2D => Coordinate2D): GridMap[A] =
     GridMap(map.toList.map(kv => f(kv._1) -> kv._2).toMap)
@@ -41,6 +46,9 @@ case class GridMap[A](map: Map[Coordinate2D, A]) {
 
   def find(predicate: A => Boolean): Option[Coordinate2D] =
     map.find { case (_, v) => predicate(v) }.map(_._1)
+
+  def filter(p: ((Coordinate2D, A)) => Boolean): GridMap[A] =
+    GridMap(map.filter(p))
 
   def findAll(predicate: A => Boolean): List[Coordinate2D] =
     map.filter { case (_, v) => predicate(v) }.keys.toList
