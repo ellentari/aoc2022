@@ -4,6 +4,7 @@ case class Coordinate2D(x: Int, y: Int) {
 
   def addX(dx: Int): Coordinate2D = copy(x = x + dx)
   def addY(dy: Int): Coordinate2D = copy(y = y + dy)
+  def add(delta: Delta2D): Coordinate2D = copy(x = x + delta.dx, y = y + delta.dy)
   def add(dx: Int, dy: Int): Coordinate2D = copy(x = x + dx, y = y + dy)
 
   def up: Coordinate2D = addY(1)
@@ -27,7 +28,7 @@ case class Coordinate2D(x: Int, y: Int) {
 object Coordinate2D {
   val Zero: Coordinate2D = Coordinate2D(0, 0)
 
-  implicit val orderingCoordinate3D: Ordering[Coordinate2D] = Ordering.by(c => (c.x, c.y))
+  implicit val orderingCoordinate3D: Ordering[Coordinate2D] = Ordering.by(c => (c.x, -c.y))
 
   def parse(s: String): Coordinate2D = {
     val parts = s.split(",")

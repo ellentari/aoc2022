@@ -151,7 +151,7 @@ object Day17 extends App {
       coordinates.map(_.x).minOption.forall(_ >= 0) &&
         coordinates.map(_.y).minOption.forall(_ >= 0) &&
         coordinates.map(_.x).maxOption.forall(_ < GridWidth) &&
-        coordinates.intersect(grid.map.keySet).isEmpty
+        coordinates.intersect(grid.underlying.keySet).isEmpty
     }
 
     @tailrec

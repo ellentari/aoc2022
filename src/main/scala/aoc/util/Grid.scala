@@ -1,5 +1,7 @@
 package aoc.util
 
+import aoc.util.Grid.Index
+
 case class Grid[A](rows: IndexedSeq[IndexedSeq[A]]) {
   
   def height: Int = rows.length

@@ -13,7 +13,7 @@ object Day23 extends App {
     grid: GridMap[Char],
     orderOfLookup: List[Coordinate2D => (List[Coordinate2D], Coordinate2D)]) {
 
-    def elves: Set[Coordinate2D] = grid.filter(_._2 == Elf).map.keySet
+    def elves: Set[Coordinate2D] = grid.filter(_._2 == Elf).underlying.keySet
 
     def next(moveElves: List[(Coordinate2D, Coordinate2D)]): State = {
       val nextGrid = grid -- moveElves.map(_._1) ++ moveElves.map(_._2 -> Elf)
